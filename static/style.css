@@ -1,15 +1,9 @@
-/* ============================= */
-/* GLOBAL RESET & BASE */
-/* ============================= */
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #cfd6e4, #b8c1d6);
@@ -17,36 +11,25 @@ body {
     overflow-x: hidden;
     color: #111827;
 }
-
-/* ============================= */
-/* LAYOUT STRUCTURE */
-/* ============================= */
-
 .layout {
     display: flex;
     min-height: 100vh;
     transition: 0.4s ease;
 }
-
-/* Sidebar */
 .sidebar {
     width: 260px;
     padding: 35px 25px;
-    background: #f9fafb;   /* soft light tone like big-container */
+    background: #f9fafb;  
     border-right: 1px solid #e5e7eb;
     transition: 0.4s ease;
     box-shadow: 5px 0 30px rgba(0,0,0,0.05);
 }
-
-/* Sidebar Title */
 .sidebar h2 {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 25px;
     letter-spacing: 0.5px;
 }
-
-/* Sidebar Inputs */
 .sidebar input,
 .sidebar select {
     background: #ffffff;
@@ -56,15 +39,11 @@ body {
     margin-bottom: 16px;
     transition: 0.3s ease;
 }
-
-/* Focus Style */
 .sidebar input:focus,
 .sidebar select:focus {
     border-color: #6366f1;
     box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
 }
-
-/* Analyze Button */
 .sidebar button {
     margin-top: 15px;
     border-radius: 14px;
@@ -75,18 +54,11 @@ body {
     padding: 0;
     overflow: hidden;
 }
-
-/* Main Content */
 .main-content {
     flex: 1;
     padding: 40px;
     position: relative;
 }
-
-/* ============================= */
-/* TOGGLE BUTTON */
-/* ============================= */
-
 .toggle-btn {
     position: absolute;
     top: 30px;
@@ -103,18 +75,12 @@ body {
     align-items: center;
     justify-content: center;
 }
-
 .main-content h1 {
     margin-left: 60px;
     margin-bottom: 30px;
     font-size: 32px;
     font-weight: 700;
 }
-
-/* ============================= */
-/* FORMS */
-/* ============================= */
-
 form {
     display: flex;
     flex-direction: column;
@@ -130,14 +96,12 @@ select {
     margin-bottom: 15px;
     transition: 0.3s ease;
 }
-
 input:focus,
 select:focus {
     border-color: #6366f1;
     box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
     outline: none;
 }
-
 button {
     padding: 14px;
     border: none;
@@ -148,23 +112,16 @@ button {
     cursor: pointer;
     transition: 0.3s ease;
 }
-
 button:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(124,58,237,0.3);
 }
-
-/* ============================= */
-/* SUMMARY CARDS */
-/* ============================= */
-
 .summary-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     gap: 18px;
     margin-bottom: 40px;
 }
-
 .card-small {
     background: #ffffff;
     padding: 20px;
@@ -173,12 +130,10 @@ button:hover {
     text-align: center;
     transition: 0.3s ease;
 }
-
 .card-small:hover {
     transform: translateY(-4px);
     box-shadow: 0 18px 40px rgba(0,0,0,0.12);
 }
-
 .card-small p {
     font-size: 13px;
     color: #6b7280;
@@ -189,8 +144,6 @@ button:hover {
     font-size: 22px;
     font-weight: 600;
 }
-
-/* Highlight card (for expense) */
 .highlight-card {
     background: linear-gradient(135deg, #2563eb, #7c3aed);
     color: white;
@@ -200,33 +153,23 @@ button:hover {
 .highlight-card h3 {
     color: white;
 }
-
-/* ============================= */
-/* BIG CONTENT CONTAINER */
-/* ============================= */
-
 .big-container {
     background: #f9fafb;
     padding: 35px;
     border-radius: 24px;
 }
-
-/* Two Column Section */
 .two-column {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
     margin-bottom: 40px;
 }
-
 .box {
     background: #ffffff;
     padding: 35px;
     border-radius: 20px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.08);
 }
-
-/* Section Titles */
 .box h3 {
     font-size: 18px;
     font-weight: 600;
@@ -234,66 +177,46 @@ button:hover {
     margin-top: 35px;
     letter-spacing: 0.3px;
 }
-
-/* First title no extra top */
 .box h3:first-child {
     margin-top: 0;
 }
-
-/* Paragraph spacing */
 .box p {
     font-size: 15px;
     line-height: 1.8;
     margin-bottom: 10px;
     color: #374151;
 }
-
-/* Label styling */
 .box p strong {
     font-weight: 600;
     margin-right: 6px;
 }
-
-/* Section divider */
 .box hr {
     margin: 28px 0;
     border: none;
     height: 1px;
     background: #e5e7eb;
 }
-/* ============================= */
-/* GRAPHS */
-/* ============================= */
-
 .graph-container {
     display: flex;
     flex-direction: column;
     gap: 50px;
 }
-
 .graph-box {
     background: white;
     padding: 25px;
     border-radius: 20px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.08);
 }
-
 .graph-box canvas {
     width: 100% !important;
     height: 450px !important;
 }
-
-/* ============================= */
-/* CENTER MODE */
-/* ============================= */
-
 .center-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
-
 .center-card {
     background: white;
     padding: 50px;
@@ -302,21 +225,14 @@ button:hover {
     box-shadow: 0 25px 60px rgba(0,0,0,0.1);
     text-align: center;
 }
-
 .center-card h1 {
     margin-bottom: 10px;
 }
-
 .center-card .subtitle {
     font-size: 14px;
     color: #6b7280;
     margin-bottom: 25px;
 }
-
-/* ============================= */
-/* RESPONSIVE */
-/* ============================= */
-
 @media (max-width: 1024px) {
     .two-column {
         grid-template-columns: 1fr;
@@ -330,7 +246,6 @@ button:hover {
         width: 220px;
     }
 }
-
 @media (max-width: 768px) {
     .layout {
         flex-direction: column;

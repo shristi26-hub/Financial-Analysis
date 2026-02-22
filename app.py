@@ -3,12 +3,8 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 
 app = Flask(__name__)
-
-# =========================
-# Train Model Once
-# =========================
 data = np.array([
-  [5000, 4400],
+[5000, 4400],
 [7000, 6100],
 [9000, 7500],
 [11000, 8800],
@@ -18,7 +14,6 @@ data = np.array([
 [21000, 15900],
 [24000, 17800],
 [27000, 19600],
-
 [30000, 21000],
 [33000, 22400],
 [36000, 24400],
@@ -29,7 +24,6 @@ data = np.array([
 [70000, 43400],
 [80000, 48000],
 [90000, 52200],
-
 [100000, 56000],
 [120000, 64800],
 [140000, 74200],
@@ -40,7 +34,6 @@ data = np.array([
 [260000, 127000],
 [300000, 144000],
 [340000, 160000],
-
 [380000, 176000],
 [420000, 193000],
 [460000, 211000],
@@ -51,7 +44,6 @@ data = np.array([
 [700000, 315000],
 [750000, 337500],
 [800000, 360000],
-
 [830000, 373500],
 [860000, 387000],
 [890000, 400500],
@@ -70,10 +62,6 @@ expenses = data[:, 1]
 reg_model = LinearRegression()
 reg_model.fit(income, expenses)
 
-
-# =========================
-# Single Page Route
-# =========================
 @app.route("/", methods=["GET", "POST"])
 def home():
 
@@ -81,9 +69,6 @@ def home():
 
     if request.method == "POST":
 
-        # =========================
-        # Collect Form Data
-        # =========================
         user_income = float(request.form["income"])
         user_age = int(request.form["age"])
         occupation = request.form["occupation"]
@@ -91,30 +76,19 @@ def home():
         city_type = request.form["city_type"]
         savings_goal = float(request.form["goal"])
 
-        # =========================
-        # Predict Expense
-        # =========================
         new_income = np.array([[user_income]])
         predicted_expense = reg_model.predict(new_income)[0]
 
-        # Prevent negative values
         predicted_expense = max(0, predicted_expense)
 
-        # Prevent expense exceeding income
         predicted_expense = min(predicted_expense, user_income * 0.95)
 
-        # Optional: round it nicely
         predicted_expense = round(predicted_expense, 2)
 
-        # =========================
-        # Savings Calculations
-        # =========================
+
         actual_savings = max(0, user_income - predicted_expense)
         annual_savings = actual_savings * 12
 
-        # =========================
-        # Goal Achievement
-        # =========================
         if savings_goal > 0:
             goal_percentage = min((actual_savings / savings_goal) * 100, 100)
         else:
@@ -125,9 +99,7 @@ def home():
         else:
             status = "Goal Not Achieved"
 
-        # =========================
-        # Financial Metrics
-        # =========================
+
         if user_income > 0:
             savings_rate = actual_savings / user_income
             expense_ratio = predicted_expense / user_income
@@ -137,7 +109,6 @@ def home():
 
         financial_health_score = int(savings_rate * 100)
 
-        # Spending Type
         if expense_ratio < 0.5:
             spending_type = "Saver"
         elif expense_ratio < 0.75:
@@ -145,11 +116,6 @@ def home():
         else:
             spending_type = "Spender"
 
-        # =========================
-        # Investment Recommendation
-        # =========================
-
-        # Risk Profile
         if user_age <= 30:
             risk_level = "High"
             equity_percent = 70
@@ -165,7 +131,6 @@ def home():
 
         debt_percent = 100 - equity_percent
 
-        # Expense Assessment
         if expense_ratio > 0.8:
             expense_message = "Your expense ratio is high. Expense optimization is recommended before aggressive investing."
         elif expense_ratio > 0.7:
@@ -173,7 +138,6 @@ def home():
         else:
             expense_message = "Your expense level is healthy."
 
-        # Emergency Fund
         if occupation.lower() == "business":
             emergency_months = 9
         elif occupation.lower() == "job":
@@ -183,7 +147,6 @@ def home():
 
         emergency_fund = int(predicted_expense * emergency_months)
 
-        # Investment Instruments
         if risk_level == "High":
             instruments = [
                 "Index Funds",
@@ -209,7 +172,6 @@ def home():
                 "Government Bonds"
             ]
 
-        # SIP Suggestion
         if savings_rate < 0.15:
             invest_percent = 0.5
         elif savings_rate < 0.25:
@@ -219,18 +181,10 @@ def home():
 
         recommended_sip = int(actual_savings * invest_percent)
 
-        # =========================
-        # Graph Data (Only 2 Graphs)
-        # =========================
-
         income_list = income.flatten().tolist()
         expense_list = expenses.tolist()
 
         predicted_line = reg_model.predict(income).flatten().tolist()
-
-        # =========================
-        # Final Result Object
-        # =========================
         result = {
             "income": int(user_income),
             "expense": int(predicted_expense),
@@ -264,9 +218,5 @@ def home():
 
 if __name__ == "__main__":
     import os
-    # Get the port from the environment (Render sets this)
-    # If it's not found, it defaults to 5000 for local testing
     port = int(os.environ.get("PORT", 5000))
-    
-    # host='0.0.0.0' tells the app to listen to all incoming network requests
     app.run(host='0.0.0.0', port=port)
