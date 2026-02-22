@@ -4,15 +4,9 @@
 <meta charset="UTF-8">
 <title>Financial Dashboard</title>
 </head>
-
 <body>
-
 {% if result %}
-
-<!-- ================= DASHBOARD MODE ================= -->
 <div class="layout">
-
-    <!-- Sidebar -->
     <div class="sidebar">
         <h2>Financial Input</h2>
         <form method="POST">
@@ -39,14 +33,10 @@
             <button type="submit">Analyze</button>
         </form>
     </div>
-
-    <!-- Main Content -->
     <div class="main-content">
 
         <button id="toggleBtn" class="toggle-btn">☰</button>
         <h1>Financial Analysis Dashboard</h1>
-
-        <!-- ===== SUMMARY CARDS ===== -->
         <div class="summary-row">
 
             <div class="card-small">
@@ -80,13 +70,8 @@
             </div>
 
         </div>
-
-        <!-- ===== DETAILS ===== -->
         <div class="big-container">
-
             <div class="two-column">
-
-                <!-- LEFT DETAILS -->
                 <div class="box">
                     <h3>Savings Goal Overview</h3>
                     <p><strong>Goal Amount:</strong> ₹ {{ result.savings_goal }}</p>
@@ -107,8 +92,6 @@
                     <p><strong>Family Size:</strong> {{ result.family_size }}</p>
                     <p><strong>City Type:</strong> {{ result.city_type }}</p>
                 </div>
-
-                <!-- RIGHT DETAILS -->
                 <div class="box">
                     <h3>Investment Recommendation Report</h3>
                     <p><strong>Risk Profile:</strong> {{ result.risk_level }}</p>
@@ -133,8 +116,6 @@
                 </div>
 
             </div>
-
-            <!-- ===== GRAPHS ===== -->
             <div class="graph-container">
 
                 <div class="graph-box">
@@ -155,7 +136,6 @@
 
 {% else %}
 
-<!-- ================= CENTER MODE ================= -->
 <div class="center-wrapper">
     <div class="center-card">
         <h1>Financial Analysis Tracker</h1>
@@ -190,9 +170,6 @@
 </div>
 
 {% endif %}
-
-<!-- ================= JS ================= -->
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 {% if result %}
