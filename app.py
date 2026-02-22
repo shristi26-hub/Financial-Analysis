@@ -263,4 +263,10 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    # Get the port from the environment (Render sets this)
+    # If it's not found, it defaults to 5000 for local testing
+    port = int(os.environ.get("PORT", 5000))
+    
+    # host='0.0.0.0' tells the app to listen to all incoming network requests
+    app.run(host='0.0.0.0', port=port)
