@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Financial Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+{% if result %}
+
+<!-- ================= DASHBOARD MODE ================= -->
+<div class="layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Financial Input</h2>
+        <form method="POST">
+            <input type="number" name="income" placeholder="Monthly Income (₹)" required>
+            <input type="number" name="age" placeholder="Age" required>
+
+            <select name="occupation" required>
+                <option value="">Occupation</option>
+                <option>Student</option>
+                <option>Job</option>
+                <option>Business</option>
+            </select>
+
+            <input type="number" name="family_size" placeholder="Family Size" required>
+
+            <select name="city_type" required>
+                <option value="">City Type</option>
+                <option>Metro</option>
+                <option>Non-Metro</option>
+            </select>
+
+            <input type="number" name="goal" placeholder="Savings Goal (₹)" required>
+
+            <button type="submit">Analyze</button>
+        </form>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <button id="toggleBtn" class="toggle-btn">☰</button>
+        <h1>Financial Analysis Dashboard</h1>
+
+        <!-- ===== SUMMARY CARDS ===== -->
+        <div class="summary-row">
+
+            <div class="card-small">
+                <p>Income</p>
+                <h3>₹ {{ result.income }}</h3>
+            </div>
+
+            <div class="card-small highlight-card">
+                <p>Predicted Expense</p>
+                <h3>₹ {{ result.expense }}</h3>
+            </div>
+
+            <div class="card-small">
+                <p>Monthly Savings</p>
+                <h3>₹ {{ result.savings }}</h3>
+            </div>
+
+            <div class="card-small">
+                <p>Annual Savings</p>
+                <h3>₹ {{ result.annual_savings }}</h3>
+            </div>
+
+            <div class="card-small">
+                <p>Health Score</p>
+                <h3>{{ result.health_score }} / 100</h3>
+            </div>
+
+            <div class="card-small">
+                <p>Spending Category</p>
+                <h3>{{ result.spending_type }}</h3>
+            </div>
+
+        </div>
+
+        <!-- ===== DETAILS ===== -->
+        <div class="big-container">
+
+            <div class="two-column">
+
+                <!-- LEFT DETAILS -->
+                <div class="box">
+                    <h3>Savings Goal Overview</h3>
+                    <p><strong>Goal Amount:</strong> ₹ {{ result.savings_goal }}</p>
+                    <p><strong>Achievement:</strong> {{ result.goal_percentage }} %</p>
+                    <p><strong>Status:</strong> {{ result.status }}</p>
+
+                    <hr>
+
+                    <h3>Financial Health Metrics</h3>
+                    <p><strong>Savings Rate:</strong> {{ result.savings_rate }} %</p>
+                    <p><strong>Expense Ratio:</strong> {{ result.expense_ratio }} %</p>
+
+                    <hr>
+
+                    <h3>Profile Details</h3>
+                    <p><strong>Age:</strong> {{ result.age }}</p>
+                    <p><strong>Occupation:</strong> {{ result.occupation }}</p>
+                    <p><strong>Family Size:</strong> {{ result.family_size }}</p>
+                    <p><strong>City Type:</strong> {{ result.city_type }}</p>
+                </div>
+
+                <!-- RIGHT DETAILS -->
+                <div class="box">
+                    <h3>Investment Recommendation Report</h3>
+                    <p><strong>Risk Profile:</strong> {{ result.risk_level }}</p>
+                    <p><strong>Equity Allocation:</strong> {{ result.equity_percent }} %</p>
+                    <p><strong>Debt Allocation:</strong> {{ result.debt_percent }} %</p>
+                    <p><strong>Emergency Fund:</strong> ₹ {{ result.emergency_fund }}</p>
+                    <p><strong>Suggested SIP:</strong> ₹ {{ result.recommended_sip }}</p>
+
+                    <hr>
+
+                    <h4 class="sub-title">Expense Assessment</h4>
+                    <p class="section-text">{{ result.expense_message }}</p>
+
+                    <hr>
+
+                    <h4 class="sub-title">Recommended Instruments</h4>
+                    <ul class="instrument-list">
+                        {% for item in result.instruments %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- ===== GRAPHS ===== -->
+            <div class="graph-container">
+
+                <div class="graph-box">
+                    <canvas id="scatterChart"></canvas>
+                </div>
+
+                <div class="graph-box">
+                    <canvas id="regressionChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% else %}
+
+<!-- ================= CENTER MODE ================= -->
+<div class="center-wrapper">
+    <div class="center-card">
+        <h1>Financial Analysis Tracker</h1>
+        <p class="subtitle">
+            Analyze your spending habits and get investment insights.
+        </p>
+
+        <form method="POST">
+            <input type="number" name="income" placeholder="Monthly Income (₹)" required>
+            <input type="number" name="age" placeholder="Age" required>
+
+            <select name="occupation" required>
+                <option value="">Occupation</option>
+                <option>Student</option>
+                <option>Job</option>
+                <option>Business</option>
+            </select>
+
+            <input type="number" name="family_size" placeholder="Family Size" required>
+
+            <select name="city_type" required>
+                <option value="">City Type</option>
+                <option>Metro</option>
+                <option>Non-Metro</option>
+            </select>
+
+            <input type="number" name="goal" placeholder="Savings Goal (₹)" required>
+
+            <button type="submit">Analyze</button>
+        </form>
+    </div>
+</div>
+
+{% endif %}
+
+<!-- ================= JS ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% if result %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const toggleBtn = document.getElementById("toggleBtn");
+    const layout = document.querySelector(".layout");
+
+    toggleBtn.addEventListener("click", function () {
+        layout.classList.toggle("collapsed");
+    });
+
+    const incomeData = {{ result.income_list | safe }};
+    const regressionLine = {{ result.predicted_line | safe }};
+
+
+    const ageGroups = ["20-30", "31-45", "46-60", "60+"];
+
+    const equityValues = [70, 50, 35, 20];
+    const debtValues = [30, 50, 65, 80];
+
+    new Chart(document.getElementById("scatterChart"), {
+        type: "bar",
+        data: {
+            labels: ageGroups,
+            datasets: [
+                {
+                    label: "Equity Allocation (%)",
+                    data: equityValues,
+                    backgroundColor: "#2563eb"
+                },
+                {
+                    label: "Debt Allocation (%)",
+                    data: debtValues,
+                    backgroundColor: "#f97316"
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 14,
+                            weight: "bold"
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: "Age Groups",
+                        font: {
+                            size: 16,
+                            weight: "bold"
+                        }
+                    }
+                },
+                y: {
+                    stacked: true,
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: "Allocation (%)",
+                        font: {
+                            size: 16,
+                            weight: "bold"
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('regressionChart'), {
+        type: 'line',
+        data: {
+            labels: incomeData,
+            datasets: [{
+                label: 'Regression Line',
+                data: regressionLine,
+                borderColor: '#7c3aed',
+                tension: 0.3,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'nearest',
+                intersect: false
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Income (₹)' }
+                },
+                y: {
+                    title: { display: true, text: 'Predicted Expense (₹)' }
+                }
+            }
+        }
+    });
+
+});
+</script>
+{% endif %}
+
+</body>
+</html>
